@@ -20,7 +20,7 @@
    ========================================================================== */
 
 :root {
-  /* NMSU Core Palette */
+  /* NMSU Core Palette — raw brand values, identical in both themes */
   --color-crimson: #8c0b42;       /* Aggie Crimson */
   --color-crimson-dark: #6d0933;  /* darkened for hover/pressed states */
   --color-white-sands: #ffffff;
@@ -33,16 +33,52 @@
   --color-organ: #b6a5ad;         /* Organ Mountain */
   --color-sand: #d7c9c4;          /* Desert Sand */
 
-  /* Semantic tokens used throughout the site */
+  /* ---- Theme-dependent semantic tokens (light) ---- */
   --color-bg: #fdfaf9;            /* near-white, warmed very slightly by Desert Sand */
   --color-surface: #ffffff;
   --color-text: #1f2933;
   --color-muted: var(--color-monsoon);
-  --color-accent: var(--color-crimson-dark);   /* hover / focus / emphasis */
-  --color-accent-dark: var(--color-crimson);   /* default brand / resting state */
   --color-border: #e7dcd8;        /* pale Desert Sand, decorative dividers only */
+
+  /* Crimson as FOREGROUND — headings, links, borders sitting on --color-bg.
+     Must lighten in dark mode to stay legible. */
+  --color-brand-fg: var(--color-crimson);
+  --color-brand-fg-hover: var(--color-crimson-dark);
+
+  /* ---- Theme-independent tokens ---- */
+  /* Crimson as a BACKGROUND carrying white text — footer, buttons, header,
+     hover fills. These must stay dark in BOTH themes or the white text on
+     them breaks, so they are deliberately NOT overridden below. */
+  --color-brand-strong: var(--color-crimson);
+  --color-brand-strong-hover: var(--color-crimson-dark);
+
   --max-width: 46rem;
   --radius: 0.5rem;
+}
+
+/* Dark theme tokens. Applied when the OS asks for dark and the visitor has not
+   explicitly chosen light, or when they have explicitly chosen dark. Only the
+   theme-dependent tokens above are redefined. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #15100f;
+    --color-surface: #1e1719;
+    --color-text: #f3ebec;
+    --color-muted: #b3a8ab;       /* 8.2:1 on --color-bg */
+    --color-border: #392f32;
+    --color-brand-fg: #ef7fa0;    /* Crimson lightened to 7.4:1 on --color-bg */
+    --color-brand-fg-hover: #f7a3bb;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #15100f;
+  --color-surface: #1e1719;
+  --color-text: #f3ebec;
+  --color-muted: #b3a8ab;
+  --color-border: #392f32;
+  --color-brand-fg: #ef7fa0;
+  --color-brand-fg-hover: #f7a3bb;
 }
 
 * {
@@ -63,14 +99,15 @@ body {
   line-height: 1.6;
 }
 
-/* Skip link: hidden until focused, for keyboard/screen-reader users */
-/* Dark slate, not crimson: this lands on top of the crimson header when
-   focused, and crimson-on-crimson would be invisible. */
+/* Skip link: hidden until focused, for keyboard/screen-reader users.
+   Fixed dark slate rather than a theme token: it lands on top of the crimson
+   header, so it must not follow --color-text (which inverts in dark mode and
+   would put white text on a near-white bar). */
 .skip-link {
   position: absolute;
   left: -999px;
   top: auto;
-  background: var(--color-text);
+  background: #1f2933;
   color: #fff;
   padding: 0.75rem 1rem;
   z-index: 100;
@@ -137,6 +174,14 @@ header.site-header::after {
   text-decoration: none;
 }
 
+/* Groups the nav and the theme toggle so they stay together on the right,
+   rather than space-between spreading three separate children apart. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
 nav.main-nav ul {
   list-style: none;
   display: flex;
@@ -186,9 +231,64 @@ nav.main-nav a[aria-current="page"] {
   font-weight: 700;
 }
 
+/* ---- Theme toggle ----
+   Ships with the `hidden` attribute in the markup; theme.js removes it, so
+   visitors without JS never see a button that cannot do anything. Dark mode
+   still follows the OS for them, via the media query at the top. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-white-sands);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.theme-toggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+
+/* Show the icon for the theme you'd switch TO. Mirrors the token cascade
+   above so it stays correct under system dark, explicit dark, and the
+   explicit-light-while-system-is-dark case. */
+.theme-toggle .icon-sun {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+    display: none;
+  }
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--color-accent);
+  outline: 3px solid var(--color-brand-fg);
   outline-offset: 2px;
 }
 
@@ -203,6 +303,19 @@ main {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 2rem 1.5rem 3rem;
+}
+
+/* Body-copy links. Without this they inherit the browser's default blue,
+   which is off-brand on light and barely legible on the dark theme. The
+   button / contact-chip / file-link rules below are more specific and keep
+   their own colors. */
+main a {
+  color: var(--color-brand-fg);
+}
+
+main a:hover,
+main a:focus-visible {
+  color: var(--color-brand-fg-hover);
 }
 
 /* Hero banner: a bright-to-deep crimson sweep (not the near-flat maroon it
@@ -280,13 +393,13 @@ main {
 
 .hero-banner .button-light {
   background: var(--color-white-sands);
-  color: var(--color-accent-dark);
+  color: var(--color-brand-strong);
 }
 
 .hero-banner .button-light:hover,
 .hero-banner .button-light:focus {
   background: var(--color-sand);
-  color: var(--color-accent-dark);
+  color: var(--color-brand-strong);
 }
 
 @keyframes fade-in-up {
@@ -327,9 +440,9 @@ main {
   align-items: center;
   gap: 0.45rem;
   padding: 0.5rem 0.9rem;
-  border: 1px solid var(--color-accent-dark);
+  border: 1px solid var(--color-brand-fg);
   border-radius: var(--radius);
-  color: var(--color-accent-dark);
+  color: var(--color-brand-fg);
   text-decoration: none;
   font-weight: 600;
   transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
@@ -337,7 +450,7 @@ main {
 
 .contact-list a:hover,
 .contact-list a:focus {
-  background: var(--color-accent-dark);
+  background: var(--color-brand-strong);
   color: #fff;
   transform: translateY(-1px);
 }
@@ -354,7 +467,7 @@ section {
 }
 
 section h2 {
-  color: var(--color-accent-dark);
+  color: var(--color-brand-fg);
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 0.4rem;
 }
@@ -421,7 +534,7 @@ section h2 {
 }
 
 .card h2 {
-  color: var(--color-accent-dark);
+  color: var(--color-brand-fg);
 }
 
 .card img {
@@ -435,12 +548,12 @@ section h2 {
   display: inline-block;
   margin-top: 0.5rem;
   font-weight: 600;
-  color: var(--color-accent-dark);
+  color: var(--color-brand-fg);
 }
 
 .button {
   display: inline-block;
-  background: var(--color-accent-dark);
+  background: var(--color-brand-strong);
   color: #fff;
   text-decoration: none;
   padding: 0.6rem 1.1rem;
@@ -452,7 +565,7 @@ section h2 {
 
 .button:hover,
 .button:focus {
-  background: var(--color-accent);
+  background: var(--color-brand-strong-hover);
 }
 
 .back-link {
@@ -461,7 +574,7 @@ section h2 {
 }
 
 footer.site-footer {
-  background: var(--color-accent-dark);
+  background: var(--color-brand-strong);
   text-align: center;
   color: var(--color-white-sands);
   padding: 2rem 1.5rem;
@@ -482,7 +595,7 @@ footer.site-footer a {
 .error-code {
   font-size: clamp(4rem, 18vw, 7rem);
   font-weight: 800;
-  color: var(--color-accent-dark);
+  color: var(--color-brand-fg);
   line-height: 1;
   margin: 0;
 }
