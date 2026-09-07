@@ -1,0 +1,28 @@
+# Deployed by Komodo's periphery agent, which builds this image directly
+# from the GitLab repo on each webhook-triggered deploy — same pattern as
+# the rest of the homelab-stacks GitOps loop.
+#
+# This stack only needs to be reachable by whatever newt tunnel client
+# already fronts your other public sites for Pangolin. Two common setups:
+#
+#   1. The newt client for this VM already shares a docker network with
+#      your other exposed services -> join that network below instead of
+#      "bridge", and skip publishing a host port.
+#   2. Nothing shares a network yet -> publish a host port (as below) and
+#      point a new Pangolin Resource at <this-host>:8095.
+#
+# Adjust to match however your existing sites are wired to Pangolin.
+
+services:
+  nmsu-website:
+    build: .
+    container_name: nmsu-website
+    restart: unless-stopped
+    ports:
+      - "8095:80"   # pick any free host port on nucleus; only Pangolin/newt needs to reach it
+    # networks:
+    #   - pangolin-net   # uncomment + define below if using the shared-network approach
+
+# networks:
+#   pangolin-net:
+#     external: true

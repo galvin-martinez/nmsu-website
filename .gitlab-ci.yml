@@ -1,0 +1,29 @@
+# NOTE: this replaces the "pages" job GitLab's template generated. We are
+# deliberately NOT using GitLab Pages — Komodo builds/deploys the site to
+# nucleus via webhook instead (see README.md). This pipeline only runs a
+# couple of free, static checks on every push so you get fast feedback while
+# you're still writing content, which doubles as evidence for the lab's
+# "Accessibility Check" step. If you see a leftover `pages:` job here from
+# the template, delete it — it would otherwise try to publish to GitLab
+# Pages, which does nothing useful on this instance/path.
+
+stages:
+  - check
+
+html-validate:
+  stage: check
+  image: node:20-alpine
+  script:
+    - npx --yes html-validate public/index.html public/experience.html public/projects.html
+
+accessibility-check:
+  stage: check
+  image: node:20-alpine
+  before_script:
+    - apk add --no-cache chromium
+    - export CHROME_PATH=/usr/bin/chromium-browser
+  script:
+    - npx --yes http-server public -p 8080 -s &
+    - sleep 2
+    - npx --yes pa11y-ci --config .pa11yci.json
+  allow_failure: true   # pa11y is a helpful nudge here, not a hard gate

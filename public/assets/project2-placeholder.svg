@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" role="img" aria-labelledby="p2Title">
+  <title id="p2Title">Placeholder screenshot for Project Two</title>
+  <rect width="400" height="225" fill="#e0e7ce"/>
+  <circle cx="90" cy="112" r="55" fill="#4d7c0f"/>
+  <rect x="170" y="70" width="200" height="14" rx="3" fill="#84a05c"/>
+  <rect x="170" y="94" width="160" height="14" rx="3" fill="#84a05c"/>
+  <rect x="170" y="118" width="180" height="14" rx="3" fill="#84a05c"/>
+  <text x="200" y="200" text-anchor="middle" font-family="sans-serif" font-size="16" fill="#3f5e0f">Replace with a real project image</text>
+</svg>

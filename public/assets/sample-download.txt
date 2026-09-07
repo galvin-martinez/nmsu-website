@@ -1,0 +1,5 @@
+This is a placeholder downloadable file.
+
+Replace this with a real file related to one of your projects (a dataset,
+source code snippet, a design PDF, sheet music, etc.) — anything the
+assignment's "downloadable file from the project" requirement is asking for.
