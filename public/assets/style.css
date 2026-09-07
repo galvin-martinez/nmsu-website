@@ -34,6 +34,8 @@
   --color-sand: #d7c9c4;          /* Desert Sand */
 
   /* ---- Theme-dependent semantic tokens (light) ---- */
+  /* Tells the browser to paint scrollbars/form controls to match. */
+  color-scheme: light;
   --color-bg: #fdfaf9;            /* near-white, warmed very slightly by Desert Sand */
   --color-surface: #ffffff;
   --color-text: #1f2933;
@@ -61,6 +63,7 @@
    theme-dependent tokens above are redefined. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    color-scheme: dark;
     --color-bg: #15100f;
     --color-surface: #1e1719;
     --color-text: #f3ebec;
@@ -72,6 +75,7 @@
 }
 
 :root[data-theme="dark"] {
+  color-scheme: dark;
   --color-bg: #15100f;
   --color-surface: #1e1719;
   --color-text: #f3ebec;
@@ -180,12 +184,17 @@ header.site-header::after {
   display: flex;
   align-items: center;
   gap: 1.25rem;
+  /* Must wrap: on narrow screens the nav plus the toggle exceed the viewport
+     and would otherwise push the pill off-screen and force a horizontal
+     scrollbar on the whole page. */
+  flex-wrap: wrap;
 }
 
 nav.main-nav ul {
   list-style: none;
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
   margin: 0;
   padding: 0;
 }
@@ -232,57 +241,76 @@ nav.main-nav a[aria-current="page"] {
 }
 
 /* ---- Theme toggle ----
-   Ships with the `hidden` attribute in the markup; theme.js removes it, so
+   Ships with the `hidden` attribute in the markup; the inline theme script
+   in each page's <head> removes it, so
    visitors without JS never see a button that cannot do anything. Dark mode
    still follows the OS for them, via the media query at the top. */
 .theme-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
   color: var(--color-white-sands);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
   cursor: pointer;
   flex-shrink: 0;
   transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
+/* MUST out-specify `.theme-toggle { display: inline-flex }` above. An author
+   `display` declaration beats the browser's `[hidden] { display: none }`, so
+   without this the button stays visible even when the theme script hasn't
+   run — a
+   dead control for anyone whose JS fails. */
+.theme-toggle[hidden] {
+  display: none;
+}
+
 .theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.7);
 }
 
 .theme-toggle svg {
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1.05rem;
+  height: 1.05rem;
   fill: currentColor;
 }
 
-/* Show the icon for the theme you'd switch TO. Mirrors the token cascade
-   above so it stays correct under system dark, explicit dark, and the
-   explicit-light-while-system-is-dark case. */
-.theme-toggle .icon-sun {
+/* Each option pairs an icon with its word. Only the theme you'd switch TO is
+   shown. Mirrors the token cascade so it stays right under system dark,
+   explicit dark, and explicit-light-while-the-system-is-dark. */
+.theme-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.theme-option--light {
   display: none;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
-    display: block;
+  :root:not([data-theme="light"]) .theme-option--light {
+    display: inline-flex;
   }
-  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+  :root:not([data-theme="light"]) .theme-option--dark {
     display: none;
   }
 }
 
-:root[data-theme="dark"] .theme-toggle .icon-sun {
-  display: block;
+:root[data-theme="dark"] .theme-option--light {
+  display: inline-flex;
 }
 
-:root[data-theme="dark"] .theme-toggle .icon-moon {
+:root[data-theme="dark"] .theme-option--dark {
   display: none;
 }
 
