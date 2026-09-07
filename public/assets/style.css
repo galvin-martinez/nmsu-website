@@ -136,31 +136,72 @@ main {
   padding: 2rem 1.5rem 3rem;
 }
 
-.hero {
+.hero-banner {
+  background: linear-gradient(135deg, var(--color-accent-dark) 0%, var(--color-crimson-dark) 60%, #4a0625 100%);
+  padding: 3rem 1.5rem;
+}
+
+.hero-banner-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1.75rem;
   align-items: center;
-  margin-bottom: 2rem;
 }
 
 .avatar {
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
-  border: 3px solid var(--color-surface);
-  box-shadow: 0 0 0 2px var(--color-accent-dark);
+  border: 3px solid var(--color-white-sands);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
   flex-shrink: 0;
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+.hero-text {
+  animation: fade-in-up 0.6s ease-out 0.15s both;
 }
 
 .hero-text h1 {
   margin: 0 0 0.35rem;
-  color: var(--color-text);
+  color: var(--color-white-sands);
+  font-size: 2.1rem;
 }
 
-.tagline {
-  color: var(--color-muted);
-  margin: 0;
+.hero-banner .tagline {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 1.1rem;
+}
+
+.hero-banner .button-light {
+  background: var(--color-white-sands);
+  color: var(--color-accent-dark);
+}
+
+.hero-banner .button-light:hover,
+.hero-banner .button-light:focus {
+  background: var(--color-sand);
+  color: var(--color-accent-dark);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar,
+  .hero-text {
+    animation: none;
+  }
 }
 
 .contact-list {
@@ -169,23 +210,34 @@ main {
   flex-wrap: wrap;
   gap: 0.75rem;
   padding: 0;
-  margin: 1rem 0 2rem;
+  margin: 2rem 0 2.5rem;
 }
 
 .contact-list a {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   padding: 0.5rem 0.9rem;
   border: 1px solid var(--color-accent-dark);
   border-radius: var(--radius);
   color: var(--color-accent-dark);
   text-decoration: none;
   font-weight: 600;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .contact-list a:hover,
 .contact-list a:focus {
   background: var(--color-accent-dark);
   color: #fff;
+  transform: translateY(-1px);
+}
+
+.contact-list .icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex-shrink: 0;
+  fill: currentColor;
 }
 
 section {
@@ -341,7 +393,7 @@ footer.site-footer a {
 }
 
 @media (max-width: 30rem) {
-  .hero {
+  .hero-banner-inner {
     flex-direction: column;
     text-align: center;
   }
