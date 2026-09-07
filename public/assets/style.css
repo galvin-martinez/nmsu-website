@@ -51,6 +51,8 @@
 
 html {
   font-size: 100%;
+  /* Keeps skip-link / anchor targets clear of the sticky header */
+  scroll-padding-top: 5.5rem;
 }
 
 body {
@@ -77,15 +79,44 @@ body {
   top: 0;
 }
 
+/* Sticky frosted header. Stays translucent white so the crimson wordmark and
+   nav keep their ~9.4:1 contrast; the blur only affects what scrolls beneath.
+   The flat 3px rule is now a crimson gradient bar echoing the hero sweep. */
 header.site-header {
-  background: var(--color-surface);
-  border-bottom: 3px solid var(--color-accent-dark);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  box-shadow: 0 2px 16px rgba(140, 11, 66, 0.07);
+}
+
+header.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--color-crimson) 0%,
+    #b3145a 50%,
+    var(--color-crimson-dark) 100%);
+}
+
+/* Browsers without backdrop-filter get an opaque bar instead of a washed-out
+   translucent one that would drop the wordmark's contrast. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  header.site-header {
+    background: var(--color-surface);
+  }
 }
 
 .header-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.5rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -94,10 +125,22 @@ header.site-header {
 }
 
 .site-title {
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
   color: var(--color-accent-dark);
   text-decoration: none;
+}
+
+/* Gradient wordmark, but only where the text clip is supported — otherwise
+   the fallback crimson above stands. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .site-title {
+    background-image: linear-gradient(120deg, var(--color-crimson) 0%, #c2185b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 nav.main-nav ul {
@@ -109,22 +152,37 @@ nav.main-nav ul {
 }
 
 nav.main-nav a {
+  position: relative;
   color: var(--color-accent-dark);
   text-decoration: none;
   font-weight: 600;
-  padding: 0.35rem 0.6rem;
-  border-radius: var(--radius);
-  border-bottom: 2px solid transparent;
+  padding: 0.4rem 0.15rem;
 }
 
-nav.main-nav a:hover,
-nav.main-nav a:focus {
-  border-bottom-color: var(--color-accent);
+/* Underline wipes in from the left on hover/focus and stays put on the
+   current page — replaces the old tinted box, which read as a blob. */
+nav.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-crimson), #c2185b);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.22s ease;
+}
+
+nav.main-nav a:hover::after,
+nav.main-nav a:focus-visible::after,
+nav.main-nav a[aria-current="page"]::after {
+  transform: scaleX(1);
 }
 
 nav.main-nav a[aria-current="page"] {
-  background: rgba(140, 11, 66, 0.08);
-  border-bottom-color: var(--color-accent-dark);
+  font-weight: 700;
 }
 
 a:focus-visible,
@@ -238,6 +296,10 @@ main {
   .avatar,
   .hero-text {
     animation: none;
+  }
+  nav.main-nav a::after,
+  .contact-list a {
+    transition: none;
   }
 }
 
