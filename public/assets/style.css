@@ -155,7 +155,9 @@ main {
   margin-top: 1.5rem;
   margin-left: auto;
   margin-right: auto;
-  padding: 3rem 2rem 3.25rem;
+  /* Horizontal padding matches main's 1.5rem so the avatar and heading line
+     up exactly with the body copy below the banner. */
+  padding: 3rem 1.5rem 3.25rem;
   border-radius: var(--radius);
   box-shadow: 0 12px 32px rgba(140, 11, 66, 0.28);
 }
@@ -245,7 +247,8 @@ main {
   flex-wrap: wrap;
   gap: 0.75rem;
   padding: 0;
-  margin: 2rem 0 2.5rem;
+  /* No top margin: main's 2rem top padding already spaces this off the hero */
+  margin: 0 0 2.5rem;
 }
 
 .contact-list a {
