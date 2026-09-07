@@ -10,8 +10,11 @@
    - Desert Monsoon on white measures ~5.1:1 — used for muted/secondary text.
    - The Expanded Palette colors are far too light on their own for text
      (Azure Sky is only ~3.2:1, the rest lower), so they only ever appear as
-     accent bars, tag borders, or ~14% tints behind dark text (that
-     combination measures 12–14:1, still checked, never assumed).
+     accent bars, tag borders, the hero's bottom stripe / corner glow, or
+     ~14% tints behind dark text (that combination measures 12–14:1, still
+     checked, never assumed).
+   - The hero gradient's lightest stop (#b3145a) measures ~6.6:1 against
+     white, so hero text clears AA everywhere along the sweep.
    - Focus states are never removed, only restyled.
    - Layout uses relative units so text reflows/zooms cleanly.
    ========================================================================== */
@@ -136,12 +139,39 @@ main {
   padding: 2rem 1.5rem 3rem;
 }
 
+/* Hero banner: a bright-to-deep crimson sweep (not the near-flat maroon it
+   started as) lifted by an Azure Sky glow in one corner and closed with an
+   Expanded Palette accent stripe. Lightest gradient stop (#b3145a) against
+   white text measures ~6.6:1, so the heading, tagline, and button all clear
+   AA at every point along the sweep. */
 .hero-banner {
-  background: linear-gradient(135deg, var(--color-accent-dark) 0%, var(--color-crimson-dark) 60%, #4a0625 100%);
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(0, 157, 184, 0.38) 0%, rgba(0, 157, 184, 0) 55%),
+    linear-gradient(135deg, #b3145a 0%, var(--color-crimson) 42%, #5c0a2e 100%);
+  width: 100%;
   max-width: var(--max-width);
-  margin: 1.5rem auto 0;
-  padding: 2.5rem 1.5rem;
+  margin-top: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem 2rem 3.25rem;
   border-radius: var(--radius);
+  box-shadow: 0 12px 32px rgba(140, 11, 66, 0.28);
+}
+
+/* Accent stripe along the bottom edge, Expanded Palette as decoration only */
+.hero-banner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background: linear-gradient(90deg,
+    var(--color-azure) 0%,
+    var(--color-mint) 50%,
+    var(--color-sunset) 100%);
 }
 
 .hero-banner-inner {
@@ -162,18 +192,22 @@ main {
 }
 
 .hero-text {
+  min-width: 0;
   animation: fade-in-up 0.6s ease-out 0.15s both;
 }
 
 .hero-text h1 {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.4rem;
   color: var(--color-white-sands);
-  font-size: 2.1rem;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
 }
 
 .hero-banner .tagline {
-  color: rgba(255, 255, 255, 0.85);
-  margin: 0 0 1.1rem;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0 0 1.35rem;
+  font-size: 1.05rem;
 }
 
 .hero-banner .button-light {
@@ -234,18 +268,11 @@ main {
   transform: translateY(-1px);
 }
 
-.contact-list .icon-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
-  border: 1.5px solid currentColor;
-  font-size: 0.65rem;
-  font-weight: 700;
-  line-height: 1;
+.contact-list .icon {
+  width: 1.15rem;
+  height: 1.15rem;
   flex-shrink: 0;
+  fill: currentColor;
 }
 
 section {
