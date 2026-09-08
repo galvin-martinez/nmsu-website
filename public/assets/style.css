@@ -664,7 +664,9 @@ footer.site-footer {
   background-color: var(--color-brand-strong);
   text-align: center;
   color: var(--color-white-sands);
-  padding: 2rem 1.5rem;
+  /* 1.5rem not 2rem: the footer carries two lines now, and this keeps its
+     height near the 80px header rather than drifting back out of balance. */
+  padding: 1.5rem 1.5rem;
   font-size: 0.9rem;
 }
 
@@ -688,6 +690,14 @@ footer.site-footer > * {
   position: relative;
   z-index: 1;
   margin: 0;
+}
+
+/* Secondary credit line. Alpha kept at 0.85 rather than lower: at 0.8rem this
+   is small text, so it needs 4.5:1 against the lightest footer facet. */
+footer.site-footer .footer-note {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 footer.site-footer a {
