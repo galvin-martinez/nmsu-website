@@ -6,7 +6,7 @@
  * broken the theme toggle. */
 (function () {
   var original = document.title;
-  var away = 'Come back, Aggie! 🔴';
+  var away = 'Come back, Aggie!';
 
   document.addEventListener('visibilitychange', function () {
     document.title = document.hidden ? away : original;
