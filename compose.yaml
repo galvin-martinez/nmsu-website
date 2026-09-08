@@ -19,7 +19,18 @@ services:
     container_name: nmsu-website
     restart: unless-stopped
     ports:
-      - "8095:80"   # pick any free host port on nucleus; only Pangolin/newt needs to reach it
+      # Newt runs on a separate VM, so this cannot be bound to 127.0.0.1.
+      # As written it binds 0.0.0.0 — every interface on nucleus. Prefer
+      # pinning it to just the server-VLAN address so it is not offered on
+      # any other NIC, e.g.:
+      #     - "10.100.10.NN:8095:80"     # <- nucleus's server-VLAN IP
+      #
+      # NOTE: docker publishes ports via DNAT in the nat table, which is
+      # evaluated BEFORE ufw's INPUT rules — so `ufw deny 8095` does NOT
+      # block this. To restrict by source, use the DOCKER-USER chain, and
+      # match the CONTAINER port (80), since DNAT has already rewritten it:
+      #     iptables -I DOCKER-USER ! -s <newt-vm-ip> -p tcp --dport 80 -j DROP
+      - "10.100.10.11:8095:80"   # pick any free host port on nucleus; only Pangolin/newt needs to reach it
     # networks:
     #   - pangolin-net   # uncomment + define below if using the shared-network approach
 
