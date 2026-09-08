@@ -130,9 +130,12 @@ header.site-header {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: linear-gradient(135deg, rgba(122, 10, 57, 0.96) 0%, rgba(74, 6, 37, 0.96) 100%);
-  backdrop-filter: blur(12px) saturate(160%);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  /* Fully opaque on purpose. This was rgba(...0.96) with a backdrop-filter,
+     but that let 4% of the page behind bleed through — so the whole bar sat
+     10 RGB units lighter over the light background than the dark one, and
+     visibly changed tone on every theme toggle. At 96% the frosted effect was
+     imperceptible anyway, so opacity buys stability for nothing. */
+  background: linear-gradient(135deg, #7a0a39 0%, #4a0625 100%);
   box-shadow: 0 4px 20px rgba(74, 6, 37, 0.28);
 }
 
@@ -149,14 +152,6 @@ header.site-header::after {
     var(--color-azure) 0%,
     var(--color-mint) 50%,
     var(--color-sunset) 100%);
-}
-
-/* Without backdrop-filter the rgba bar would let content ghost through; go
-   fully opaque there. */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  header.site-header {
-    background: linear-gradient(135deg, #7a0a39 0%, #4a0625 100%);
-  }
 }
 
 .header-inner {
@@ -295,7 +290,13 @@ nav.main-nav a[aria-current="page"] {
   grid-area: 1 / 1;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  /* Stretch to the full cell and pack contents from the left. Centering each
+     option independently made the wider one ("Light") start ~1.6px further
+     left, so the ICON visibly slid on every toggle even though the button
+     itself no longer resized. Left-packing pins the icon and the label's
+     start to the same x in both states. */
+  width: 100%;
+  justify-content: flex-start;
   gap: 0.45rem;
 }
 
