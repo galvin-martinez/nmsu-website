@@ -105,11 +105,107 @@
       <p class="error-code">404</p>
 
       <svg class="error-illustration" viewBox="0 0 400 200" role="img" aria-hidden="true" focusable="false">
-        <title>Decorative desert landscape</title>
-        <rect width="400" height="200" fill="#e6f5f8" />
-        <circle cx="320" cy="55" r="34" fill="#f2824f" />
-        <path d="M0 160 L90 90 L150 140 L210 80 L400 155 L400 200 L0 200 Z" fill="#b6a5ad" />
-        <path d="M0 185 L120 130 L230 175 L320 145 L400 180 L400 200 L0 200 Z" fill="#d7c9c4" />
+        <title>Skeen Hall at sunset with the mountains behind it</title>
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#b8571f" />
+            <stop offset="18%" stop-color="#dc7c31" />
+            <stop offset="40%" stop-color="#f0a054" />
+            <stop offset="62%" stop-color="#f7c489" />
+            <stop offset="82%" stop-color="#f6dcbb" />
+            <stop offset="100%" stop-color="#efd9c4" />
+          </linearGradient>
+          <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stop-color="#ffe6b0" stop-opacity="0.75" />
+            <stop offset="100%" stop-color="#ffe6b0" stop-opacity="0" />
+          </radialGradient>
+          <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#cd6236" />
+            <stop offset="100%" stop-color="#9e3c1d" />
+          </linearGradient>
+          <linearGradient id="dome" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#71b9a0" />
+            <stop offset="45%" stop-color="#4e8e79" />
+            <stop offset="100%" stop-color="#356857" />
+          </linearGradient>
+          <linearGradient id="roofSide" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a94a24" />
+            <stop offset="100%" stop-color="#7d2f14" />
+          </linearGradient>
+          <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d9bb99" />
+            <stop offset="100%" stop-color="#c49a72" />
+          </linearGradient>
+          <linearGradient id="stone" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#f5efe4" />
+            <stop offset="100%" stop-color="#d6c9b3" />
+          </linearGradient>
+        </defs>
+
+        <rect width="400" height="200" fill="url(#sky)" />
+        <circle cx="250" cy="106" r="98" fill="url(#glow)" />
+
+        <ellipse cx="95" cy="20" rx="90" ry="8" fill="#7c6f83" opacity="0.34" />
+        <ellipse cx="300" cy="13" rx="105" ry="6" fill="#8a7d8e" opacity="0.28" />
+        <ellipse cx="205" cy="36" rx="125" ry="5" fill="#9b8a93" opacity="0.2" />
+        <ellipse cx="340" cy="54" rx="75" ry="4" fill="#a8929a" opacity="0.16" />
+
+        <path d="M0 106 L32 98 L54 103 L80 92 L102 100 L130 94 L152 102 L178 95 L202 101 L232 93 L258 99 L288 91 L312 98 L342 93 L368 100 L400 95 L400 124 L0 124 Z"
+              fill="#98a1bd" opacity="0.7" />
+        <path d="M0 113 L42 106 L72 111 L104 105 L142 112 L182 106 L218 111 L252 105 L292 111 L332 106 L372 112 L400 108 L400 130 L0 130 Z"
+              fill="#7d87a5" opacity="0.78" />
+
+        <rect x="0" y="124" width="400" height="76" fill="url(#ground)" opacity="0.55" />
+        <path d="M-10 148 L-10 128 Q -1.1 122.4 7.9 128.0 Q 18.8 122.8 29.7 128.0 Q 39.9 121.6 50.1 128.0 Q 57.5 121.0 64.8 128.0 Q 72.0 121.3 79.3 128.0 Q 86.7 122.7 94.1 128.0 Q 103.7 119.7 113.2 128.0 Q 120.9 122.1 128.7 128.0 Q 139.5 119.2 150.2 128.0 Q 160.7 121.4 171.1 128.0 Q 184.0 122.9 196.9 128.0 Q 209.0 121.9 221.2 128.0 Q 229.0 122.6 236.9 128.0 Q 245.7 119.7 254.6 128.0 Q 262.7 120.7 270.8 128.0 Q 281.6 121.5 292.4 128.0 Q 302.7 122.8 313.0 128.0 Q 320.4 122.2 327.7 128.0 Q 338.8 121.3 349.9 128.0 Q 358.8 120.7 367.7 128.0 Q 377.4 121.8 387.1 128.0 Q 398.9 120.2 410.6 128.0 L410.6 148 Z" fill="#5d6f5c" opacity="0.55" />
+        <path d="M-10 156 L-10 136 Q -3.8 130.3 2.4 136.0 Q 10.1 129.4 17.7 136.0 Q 26.3 131.2 35.0 136.0 Q 44.9 131.8 54.8 136.0 Q 61.9 129.8 69.0 136.0 Q 74.7 130.6 80.5 136.0 Q 85.7 130.0 90.9 136.0 Q 99.7 130.3 108.5 136.0 Q 117.9 131.2 127.3 136.0 Q 135.8 130.3 144.2 136.0 Q 152.1 130.7 160.0 136.0 Q 169.2 129.2 178.4 136.0 Q 185.8 130.1 193.2 136.0 Q 198.5 129.9 203.8 136.0 Q 212.0 129.0 220.3 136.0 Q 229.4 131.3 238.5 136.0 Q 245.4 130.0 252.3 136.0 Q 257.4 130.7 262.6 136.0 Q 268.4 131.8 274.2 136.0 Q 279.5 129.7 284.8 136.0 Q 290.5 131.4 296.1 136.0 Q 303.1 129.4 310.0 136.0 Q 315.4 130.7 320.8 136.0 Q 328.6 129.4 336.3 136.0 Q 345.4 129.4 354.5 136.0 Q 360.9 130.8 367.3 136.0 Q 374.1 129.4 380.9 136.0 Q 390.7 131.7 400.5 136.0 Q 406.4 131.4 412.2 136.0 L412.2 156 Z" fill="#47593f" opacity="0.6" />
+
+        <path d="M0 200 L0 190 L58 171 L126 183 L126 200 Z" fill="url(#roofSide)" />
+        <path d="M400 200 L400 190 L342 171 L274 183 L274 200 Z" fill="url(#roofSide)" />
+        <g stroke="#c9683c" stroke-width="1.4" fill="none" opacity="0.6">
+          <path d="M0 190 L58 171 L126 183" />
+          <path d="M400 190 L342 171 L274 183" />
+        </g>
+
+        <path d="M126 183 L152 146 L248 146 L274 183 Z" fill="url(#roof)" />
+        <g stroke="#822f14" stroke-width="1.1" opacity="0.45">
+          <line x1="176" y1="146" x2="163" y2="183" />
+          <line x1="200" y1="146" x2="200" y2="183" />
+          <line x1="224" y1="146" x2="237" y2="183" />
+        </g>
+        <rect x="150" y="144" width="100" height="3" fill="#dd8253" opacity="0.75" />
+
+        <rect x="124" y="183" width="152" height="17" fill="url(#stone)" />
+        <rect x="124" y="183" width="152" height="2" fill="#8f3719" opacity="0.35" />
+        <g fill="#2e4a54">
+          <rect x="136" y="188" width="9" height="12" />
+          <rect x="159" y="188" width="9" height="12" />
+          <rect x="182" y="188" width="9" height="12" />
+          <rect x="205" y="188" width="9" height="12" />
+          <rect x="228" y="188" width="9" height="12" />
+          <rect x="251" y="188" width="9" height="12" />
+        </g>
+
+        <rect x="170" y="142" width="60" height="6" fill="#ddd0ba" />
+        <rect x="172" y="135" width="56" height="7" fill="url(#stone)" />
+        <rect x="178" y="105" width="44" height="30" fill="#2b4750" />
+        <g fill="url(#stone)">
+          <rect x="177" y="105" width="5" height="30" />
+          <rect x="187.5" y="105" width="5" height="30" />
+          <rect x="198" y="105" width="5" height="30" />
+          <rect x="208.5" y="105" width="5" height="30" />
+          <rect x="219" y="105" width="5" height="30" />
+        </g>
+        <rect x="172" y="98" width="56" height="8" fill="url(#stone)" />
+
+        <path d="M176 98 C176 74 186 60 200 60 C214 60 224 74 224 98 Z" fill="url(#dome)" />
+        <g stroke="#33604f" stroke-width="1" fill="none" opacity="0.5">
+          <path d="M200 60 L200 98" />
+          <path d="M190 62 C186 74 184 86 184 98" />
+          <path d="M210 62 C214 74 216 86 216 98" />
+        </g>
+        <rect x="173" y="95" width="54" height="4" fill="#33604f" />
+        <circle cx="200" cy="57" r="4" fill="#4e8e79" />
+        <line x1="200" y1="53" x2="200" y2="24" stroke="#33604f" stroke-width="2" />
       </svg>
 
       <h1>We couldn't find that page</h1>
