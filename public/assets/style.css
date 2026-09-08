@@ -404,6 +404,11 @@ main a:focus-visible {
 .avatar {
   width: 11rem;
   height: 11rem;
+  /* Breathing room either side: adds to the hero's 1.5rem padding on the left
+     (2.25rem total) and to the 1.75rem flex gap on the right (2.5rem total).
+     Symmetric so the avatar stays centred when the hero stacks on mobile. */
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
   border-radius: 50%;
   border: 3px solid var(--color-white-sands);
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
