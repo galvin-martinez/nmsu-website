@@ -166,7 +166,10 @@ header.site-header::after {
 .header-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  /* 1.25rem, not 1rem: balances the header against the footer. Kept modest
+     because the header is sticky, so every extra pixel costs viewport on
+     every scroll. Stays under the 5.5rem scroll-padding-top set on html. */
+  padding: 1.25rem 1.5rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -678,10 +681,13 @@ footer.site-footer::before {
     linear-gradient(160deg, rgba(255, 255, 255, 0.04) 0 52%, transparent 52%);
 }
 
-/* Keep the footer content above the facet layer. */
+/* Keep the footer content above the facet layer. The margin reset matters:
+   the <p> ships with a default 1em margin that stacked on the footer's own
+   padding, making it ~44px taller than the header for no visible reason. */
 footer.site-footer > * {
   position: relative;
   z-index: 1;
+  margin: 0;
 }
 
 footer.site-footer a {
