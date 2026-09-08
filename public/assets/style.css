@@ -246,9 +246,8 @@ nav.main-nav a[aria-current="page"] {
    visitors without JS never see a button that cannot do anything. Dark mode
    still follows the OS for them, via the media query at the top. */
 .theme-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
+  place-items: center;
   min-height: 2.5rem;
   padding: 0.45rem 1rem;
   border: 1px solid rgba(255, 255, 255, 0.4);
@@ -287,31 +286,38 @@ nav.main-nav a[aria-current="page"] {
 /* Each option pairs an icon with its word. Only the theme you'd switch TO is
    shown. Mirrors the token cascade so it stays right under system dark,
    explicit dark, and explicit-light-while-the-system-is-dark. */
+/* Both options sit in the SAME grid cell, so the button is always as wide as
+   the widest label ("Light") regardless of which is showing. Toggling then
+   swaps visibility rather than layout — without this the pill grew ~3px on
+   switch and shoved the nav sideways, since .header-inner is space-between.
+   visibility (not opacity) also keeps the hidden label out of the a11y tree. */
 .theme-option {
+  grid-area: 1 / 1;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.45rem;
 }
 
 .theme-option--light {
-  display: none;
+  visibility: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .theme-option--light {
-    display: inline-flex;
+    visibility: visible;
   }
   :root:not([data-theme="light"]) .theme-option--dark {
-    display: none;
+    visibility: hidden;
   }
 }
 
 :root[data-theme="dark"] .theme-option--light {
-  display: inline-flex;
+  visibility: visible;
 }
 
 :root[data-theme="dark"] .theme-option--dark {
-  display: none;
+  visibility: hidden;
 }
 
 a:focus-visible,
