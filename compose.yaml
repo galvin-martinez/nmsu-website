@@ -1,0 +1,39 @@
+# Deployed by Komodo's periphery agent, which builds this image directly
+# from the GitLab repo on each webhook-triggered deploy — same pattern as
+# the rest of the homelab-stacks GitOps loop.
+#
+# This stack only needs to be reachable by whatever newt tunnel client
+# already fronts your other public sites for Pangolin. Two common setups:
+#
+#   1. The newt client for this VM already shares a docker network with
+#      your other exposed services -> join that network below instead of
+#      "bridge", and skip publishing a host port.
+#   2. Nothing shares a network yet -> publish a host port (as below) and
+#      point a new Pangolin Resource at <this-host>:8095.
+#
+# Adjust to match however your existing sites are wired to Pangolin.
+
+services:
+  nmsu-website:
+    build: .
+    container_name: nmsu-website
+    restart: unless-stopped
+    ports:
+      # Newt runs on a separate VM, so this cannot be bound to 127.0.0.1.
+      # As written it binds 0.0.0.0 — every interface on nucleus. Prefer
+      # pinning it to just the server-VLAN address so it is not offered on
+      # any other NIC, e.g.:
+      #     - "10.100.10.NN:8095:80"     # <- nucleus's server-VLAN IP
+      #
+      # NOTE: docker publishes ports via DNAT in the nat table, which is
+      # evaluated BEFORE ufw's INPUT rules — so `ufw deny 8095` does NOT
+      # block this. To restrict by source, use the DOCKER-USER chain, and
+      # match the CONTAINER port (80), since DNAT has already rewritten it:
+      #     iptables -I DOCKER-USER ! -s <newt-vm-ip> -p tcp --dport 80 -j DROP
+      - "10.100.10.11:8095:80"   # pick any free host port on nucleus; only Pangolin/newt needs to reach it
+    # networks:
+    #   - pangolin-net   # uncomment + define below if using the shared-network approach
+
+# networks:
+#   pangolin-net:
+#     external: true

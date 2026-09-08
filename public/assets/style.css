@@ -1,0 +1,693 @@
+/* ==========================================================================
+   nmsu-website — shared stylesheet
+   Palette: NMSU brand colors (Core: Aggie Crimson, White Sands;
+   Expanded: Azure Sky, Desert Monsoon, Sagebrush Mint, Mesilla Valley
+   Sunset, Organ Mountain, Desert Sand).
+
+   Accessibility notes:
+   - Aggie Crimson on White Sands (and reversed) measures ~9.4:1 — used for
+     all brand text, links, and buttons.
+   - Desert Monsoon on white measures ~5.1:1 — used for muted/secondary text.
+   - The Expanded Palette colors are far too light on their own for text
+     (Azure Sky is only ~3.2:1, the rest lower), so they only ever appear as
+     accent bars, tag borders, the hero's bottom stripe / corner glow, or
+     ~14% tints behind dark text (that combination measures 12–14:1, still
+     checked, never assumed).
+   - The hero gradient's lightest stop (#b3145a) measures ~6.6:1 against
+     white, so hero text clears AA everywhere along the sweep.
+   - Focus states are never removed, only restyled.
+   - Layout uses relative units so text reflows/zooms cleanly.
+   ========================================================================== */
+
+:root {
+  /* NMSU Core Palette — raw brand values, identical in both themes */
+  --color-crimson: #8c0b42;       /* Aggie Crimson */
+  --color-crimson-dark: #6d0933;  /* darkened for hover/pressed states */
+  --color-white-sands: #ffffff;
+
+  /* NMSU Expanded Palette — decorative accents only, never small text */
+  --color-azure: #009db8;         /* Azure Sky */
+  --color-monsoon: #6d6e71;       /* Desert Monsoon */
+  --color-mint: #6cc3bc;          /* Sagebrush Mint */
+  --color-sunset: #f2824f;        /* Mesilla Valley Sunset */
+  --color-organ: #b6a5ad;         /* Organ Mountain */
+  --color-sand: #d7c9c4;          /* Desert Sand */
+
+  /* ---- Theme-dependent semantic tokens (light) ---- */
+  /* Tells the browser to paint scrollbars/form controls to match. */
+  color-scheme: light;
+  --color-bg: #fdfaf9;            /* near-white, warmed very slightly by Desert Sand */
+  --color-surface: #ffffff;
+  --color-text: #1f2933;
+  --color-muted: var(--color-monsoon);
+  --color-border: #e7dcd8;        /* pale Desert Sand, decorative dividers only */
+
+  /* Crimson as FOREGROUND — headings, links, borders sitting on --color-bg.
+     Must lighten in dark mode to stay legible. */
+  --color-brand-fg: var(--color-crimson);
+  --color-brand-fg-hover: var(--color-crimson-dark);
+
+  /* ---- Theme-independent tokens ---- */
+  /* Crimson as a BACKGROUND carrying white text — footer, buttons, header,
+     hover fills. These must stay dark in BOTH themes or the white text on
+     them breaks, so they are deliberately NOT overridden below. */
+  --color-brand-strong: var(--color-crimson);
+  --color-brand-strong-hover: var(--color-crimson-dark);
+
+  --max-width: 46rem;
+  --radius: 0.5rem;
+}
+
+/* Dark theme tokens. Applied when the OS asks for dark and the visitor has not
+   explicitly chosen light, or when they have explicitly chosen dark. Only the
+   theme-dependent tokens above are redefined. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: #15100f;
+    --color-surface: #1e1719;
+    --color-text: #f3ebec;
+    --color-muted: #b3a8ab;       /* 8.2:1 on --color-bg */
+    --color-border: #392f32;
+    --color-brand-fg: #ef7fa0;    /* Crimson lightened to 7.4:1 on --color-bg */
+    --color-brand-fg-hover: #f7a3bb;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #15100f;
+  --color-surface: #1e1719;
+  --color-text: #f3ebec;
+  --color-muted: #b3a8ab;
+  --color-border: #392f32;
+  --color-brand-fg: #ef7fa0;
+  --color-brand-fg-hover: #f7a3bb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  /* Keeps skip-link / anchor targets clear of the sticky header */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* Skip link: hidden until focused, for keyboard/screen-reader users.
+   Fixed dark slate rather than a theme token: it lands on top of the crimson
+   header, so it must not follow --color-text (which inverts in dark mode and
+   would put white text on a near-white bar). */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  background: #1f2933;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  z-index: 100;
+  border-radius: 0 0 var(--radius) 0;
+}
+.skip-link:focus {
+  left: 0;
+  top: 0;
+}
+
+/* Sticky crimson header, bookending the crimson footer. Deliberately uses the
+   DEEP end of the crimson range (#7a0a39 → #4a0625) while the hero below opens
+   at a bright #b3145a — that tonal gap keeps the two crimson blocks reading as
+   separate elements instead of merging. White on both stops clears 10:1. */
+header.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  /* Fully opaque on purpose. This was rgba(...0.96) with a backdrop-filter,
+     but that let 4% of the page behind bleed through — so the whole bar sat
+     10 RGB units lighter over the light background than the dark one, and
+     visibly changed tone on every theme toggle. At 96% the frosted effect was
+     imperceptible anyway, so opacity buys stability for nothing. */
+  background: linear-gradient(135deg, #7a0a39 0%, #4a0625 100%);
+  box-shadow: 0 4px 20px rgba(74, 6, 37, 0.28);
+}
+
+/* Expanded Palette stripe, the one place these light colors carry against a
+   dark ground. Echoes the hero's stripe so the two frame the page together. */
+header.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--color-azure) 0%,
+    var(--color-mint) 50%,
+    var(--color-sunset) 100%);
+}
+
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--color-white-sands);
+  text-decoration: none;
+}
+
+/* Groups the nav and the theme toggle so they stay together on the right,
+   rather than space-between spreading three separate children apart. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  /* Must wrap: on narrow screens the nav plus the toggle exceed the viewport
+     and would otherwise push the pill off-screen and force a horizontal
+     scrollbar on the whole page. */
+  flex-wrap: wrap;
+}
+
+nav.main-nav ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+nav.main-nav a {
+  position: relative;
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.4rem 0.15rem;
+  transition: color 0.18s ease;
+}
+
+nav.main-nav a:hover,
+nav.main-nav a:focus-visible,
+nav.main-nav a[aria-current="page"] {
+  color: var(--color-white-sands);
+}
+
+/* Underline wipes in from the left on hover/focus and stays put on the
+   current page — replaces the old tinted box, which read as a blob. */
+nav.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-mint);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.22s ease;
+}
+
+nav.main-nav a:hover::after,
+nav.main-nav a:focus-visible::after,
+nav.main-nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+nav.main-nav a[aria-current="page"] {
+  font-weight: 700;
+}
+
+/* ---- Theme toggle ----
+   Ships with the `hidden` attribute in the markup; the inline theme script
+   in each page's <head> removes it, so
+   visitors without JS never see a button that cannot do anything. Dark mode
+   still follows the OS for them, via the media query at the top. */
+.theme-toggle {
+  display: inline-grid;
+  place-items: center;
+  min-height: 2.5rem;
+  padding: 0.45rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-white-sands);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+/* MUST out-specify `.theme-toggle { display: inline-flex }` above. An author
+   `display` declaration beats the browser's `[hidden] { display: none }`, so
+   without this the button stays visible even when the theme script hasn't
+   run — a
+   dead control for anyone whose JS fails. */
+.theme-toggle[hidden] {
+  display: none;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.theme-toggle svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: currentColor;
+}
+
+/* Each option pairs an icon with its word. Only the theme you'd switch TO is
+   shown. Mirrors the token cascade so it stays right under system dark,
+   explicit dark, and explicit-light-while-the-system-is-dark. */
+/* Both options sit in the SAME grid cell, so the button is always as wide as
+   the widest label ("Light") regardless of which is showing. Toggling then
+   swaps visibility rather than layout — without this the pill grew ~3px on
+   switch and shoved the nav sideways, since .header-inner is space-between.
+   visibility (not opacity) also keeps the hidden label out of the a11y tree. */
+.theme-option {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  /* Stretch to the full cell and pack contents from the left. Centering each
+     option independently made the wider one ("Light") start ~1.6px further
+     left, so the ICON visibly slid on every toggle even though the button
+     itself no longer resized. Left-packing pins the icon and the label's
+     start to the same x in both states. */
+  width: 100%;
+  justify-content: flex-start;
+  gap: 0.45rem;
+}
+
+.theme-option--light {
+  visibility: hidden;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-option--light {
+    visibility: visible;
+  }
+  :root:not([data-theme="light"]) .theme-option--dark {
+    visibility: hidden;
+  }
+}
+
+:root[data-theme="dark"] .theme-option--light {
+  visibility: visible;
+}
+
+:root[data-theme="dark"] .theme-option--dark {
+  visibility: hidden;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--color-brand-fg);
+  outline-offset: 2px;
+}
+
+/* The crimson default outline would disappear against the crimson header and
+   footer; Sagebrush Mint reads clearly on both. */
+header.site-header a:focus-visible,
+footer.site-footer a:focus-visible,
+.hero-banner a:focus-visible {
+  outline-color: var(--color-mint);
+}
+
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+/* Body-copy links. Without this they inherit the browser's default blue,
+   which is off-brand on light and barely legible on the dark theme. The
+   button / contact-chip / file-link rules below are more specific and keep
+   their own colors. */
+main a {
+  color: var(--color-brand-fg);
+}
+
+main a:hover,
+main a:focus-visible {
+  color: var(--color-brand-fg-hover);
+}
+
+/* Hero banner: a bright-to-deep crimson sweep (not the near-flat maroon it
+   started as) lifted by an Azure Sky glow in one corner and closed with an
+   Expanded Palette accent stripe. Lightest gradient stop (#b3145a) against
+   white text measures ~6.6:1, so the heading, tagline, and button all clear
+   AA at every point along the sweep. */
+.hero-banner {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(0, 157, 184, 0.38) 0%, rgba(0, 157, 184, 0) 55%),
+    linear-gradient(135deg, #b3145a 0%, var(--color-crimson) 42%, #5c0a2e 100%);
+  width: 100%;
+  max-width: var(--max-width);
+  margin-top: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  /* This is a <section>, so it otherwise inherits section's 2.5rem bottom
+     margin, which stacked with main's padding for a ~92px gap under the hero. */
+  margin-bottom: 0;
+  /* Horizontal padding matches main's 1.5rem so the avatar and heading line
+     up exactly with the body copy below the banner. */
+  padding: 3rem 1.5rem 3.25rem;
+  border-radius: var(--radius);
+  box-shadow: 0 12px 32px rgba(140, 11, 66, 0.28);
+}
+
+/* Accent stripe along the bottom edge, Expanded Palette as decoration only */
+.hero-banner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background: linear-gradient(90deg,
+    var(--color-azure) 0%,
+    var(--color-mint) 50%,
+    var(--color-sunset) 100%);
+}
+
+.hero-banner-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.avatar {
+  width: 11rem;
+  height: 11rem;
+  /* Breathing room either side: adds to the hero's 1.5rem padding on the left
+     (2.25rem total) and to the 1.75rem flex gap on the right (2.5rem total).
+     Symmetric so the avatar stays centred when the hero stacks on mobile. */
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  border-radius: 50%;
+  border: 3px solid var(--color-white-sands);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+.hero-text {
+  min-width: 0;
+  animation: fade-in-up 0.6s ease-out 0.15s both;
+}
+
+.hero-text h1 {
+  margin: 0 0 0.4rem;
+  color: var(--color-white-sands);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.hero-banner .tagline {
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0 0 1.35rem;
+  font-size: 1.05rem;
+}
+
+.hero-banner .button-light {
+  background: var(--color-white-sands);
+  color: var(--color-brand-strong);
+}
+
+.hero-banner .button-light:hover,
+.hero-banner .button-light:focus {
+  background: var(--color-sand);
+  color: var(--color-brand-strong);
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avatar,
+  .hero-text {
+    animation: none;
+  }
+  nav.main-nav a,
+  nav.main-nav a::after,
+  .contact-list a {
+    transition: none;
+  }
+}
+
+.contact-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0;
+  /* No top margin: main's 2rem top padding already spaces this off the hero */
+  margin: 0 0 2.5rem;
+}
+
+.contact-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--color-brand-fg);
+  border-radius: var(--radius);
+  color: var(--color-brand-fg);
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.contact-list a:hover,
+.contact-list a:focus {
+  background: var(--color-brand-strong);
+  color: #fff;
+}
+
+.contact-list .icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex-shrink: 0;
+  fill: currentColor;
+}
+
+/* Contact chips inside the crimson hero. They borrow the header toggle's
+   frosted treatment — translucent white fill + brighter border — but keep the
+   site's rectangular --radius rather than the toggle's pill shape. A border
+   alone (no fill) read as far too faint against the gradient; the fill is what
+   makes the control legible as a shape.
+
+   Alphas are capped for contrast, checked against the gradient's LIGHTEST stop
+   (#b3145a, the worst case): white text over the 0.12 fill is ~5.6:1 and over
+   the 0.20 hover fill ~4.8:1, both clearing AA. Going brighter looks punchier
+   but drops the text under 4.5:1. */
+.hero-banner .contact-list {
+  margin: 0;
+}
+
+.hero-banner .contact-list a {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--color-white-sands);
+}
+
+.hero-banner .contact-list a:hover,
+.hero-banner .contact-list a:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.8);
+  color: var(--color-white-sands);
+}
+
+section {
+  margin-bottom: 2.5rem;
+}
+
+section h2 {
+  color: var(--color-brand-fg);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.4rem;
+}
+
+.placeholder {
+  background: rgba(242, 130, 79, 0.12);   /* Mesilla Valley Sunset, 12% tint */
+  border: 1px dashed var(--color-sunset);
+  border-radius: var(--radius);
+  padding: 0.15rem 0.4rem;
+}
+
+/* Skill/interest tag chips — Expanded Palette used as a light tint behind
+   dark text (12–14:1 contrast, see notes at top), cycled by nth-child so
+   adjacent tags don't repeat the same color. */
+.tag-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.tag-list li {
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-left: 4px solid transparent;
+}
+
+.tag-list li:nth-child(4n+1) {
+  background: rgba(0, 157, 184, 0.14);
+  border-left-color: var(--color-azure);
+}
+.tag-list li:nth-child(4n+2) {
+  background: rgba(108, 195, 188, 0.18);
+  border-left-color: var(--color-mint);
+}
+.tag-list li:nth-child(4n+3) {
+  background: rgba(242, 130, 79, 0.14);
+  border-left-color: var(--color-sunset);
+}
+.tag-list li:nth-child(4n+4) {
+  background: rgba(182, 165, 173, 0.22);
+  border-left-color: var(--color-organ);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-azure);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.card.accent-mint {
+  border-top-color: var(--color-mint);
+}
+
+.card.accent-sunset {
+  border-top-color: var(--color-sunset);
+}
+
+.card h2 {
+  color: var(--color-brand-fg);
+}
+
+.card img {
+  max-width: 100%;
+  border-radius: var(--radius);
+  margin: 0.75rem 0;
+  height: auto;
+}
+
+.card .file-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: var(--color-brand-fg);
+}
+
+.button {
+  display: inline-block;
+  background: var(--color-brand-strong);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus {
+  background: var(--color-brand-strong-hover);
+}
+
+footer.site-footer {
+  background: var(--color-brand-strong);
+  text-align: center;
+  color: var(--color-white-sands);
+  padding: 2rem 1.5rem;
+  font-size: 0.9rem;
+}
+
+footer.site-footer a {
+  color: var(--color-white-sands);
+  text-decoration: underline;
+}
+
+/* ---- 404 page ---- */
+.error-page {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+
+.error-code {
+  font-size: clamp(4rem, 18vw, 7rem);
+  font-weight: 800;
+  color: var(--color-brand-fg);
+  line-height: 1;
+  margin: 0;
+}
+
+.error-illustration {
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  margin: 1.5rem auto;
+  display: block;
+}
+
+.error-message {
+  max-width: 32rem;
+  margin: 0 auto 1.75rem;
+  color: var(--color-muted);
+}
+
+@media (max-width: 30rem) {
+  .hero-banner-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .contact-list {
+    justify-content: center;
+  }
+  .tag-list {
+    justify-content: center;
+  }
+}
