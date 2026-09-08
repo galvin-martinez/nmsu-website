@@ -6,20 +6,19 @@ METHOD:PUBLISH
 BEGIN:VEVENT
 UID:next-vacation-tbd@nmsu.galvin.pro
 DTSTAMP:20260908T120000Z
-DTSTART;VALUE=DATE:20270612
-DTEND;VALUE=DATE:20270620
-RRULE:FREQ=YEARLY
+DTSTART;VALUE=DATE:20270605
+DTEND;VALUE=DATE:20270613
 SUMMARY:Next Vacation — TBD
 LOCATION:Somewhere with a beach
 CATEGORIES:VACATION
 STATUS:TENTATIVE
 TRANSP:OPAQUE
 PRIORITY:1
-DESCRIPTION:Destination: undecided. Leading candidate: Maui (again).\n\nNon
- -negotiable requirements:\n  - Sunrise from the top of something\n  - Wate
- r clear enough to snorkel in\n  - Zero laptops. This one is load-bearing.\
- n\nStatus is TENTATIVE because the date is genuinely TBD.\nPriority is 1 b
- ecause it is not.
+DESCRIPTION:Dates are locked. Destination is not.\nLeading candidate: Maui 
+ (again).\n\nNon-negotiable requirements:\n  - Sunrise from the top of some
+ thing\n  - Water clear enough to snorkel in\n  - The laptop comes. It alwa
+ ys comes. It will mostly stay shut.\n\nStatus is TENTATIVE because the des
+ tination is genuinely TBD.\nPriority is 1 because it is not.
 BEGIN:VALARM
 TRIGGER:-P30D
 ACTION:DISPLAY
