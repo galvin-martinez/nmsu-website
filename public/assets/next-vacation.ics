@@ -1,0 +1,29 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Galvin Martinez//NMSU Portfolio//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:next-vacation-tbd@nmsu.galvin.pro
+DTSTAMP:20260908T120000Z
+DTSTART;VALUE=DATE:20270612
+DTEND;VALUE=DATE:20270620
+RRULE:FREQ=YEARLY
+SUMMARY:Next Vacation — TBD
+LOCATION:Somewhere with a beach
+CATEGORIES:VACATION
+STATUS:TENTATIVE
+TRANSP:OPAQUE
+PRIORITY:1
+DESCRIPTION:Destination: undecided. Leading candidate: Maui (again).\n\nNon
+ -negotiable requirements:\n  - Sunrise from the top of something\n  - Wate
+ r clear enough to snorkel in\n  - Zero laptops. This one is load-bearing.\
+ n\nStatus is TENTATIVE because the date is genuinely TBD.\nPriority is 1 b
+ ecause it is not.
+BEGIN:VALARM
+TRIGGER:-P30D
+ACTION:DISPLAY
+DESCRIPTION:Book something. Anything. You have earned it.
+END:VALARM
+END:VEVENT
+END:VCALENDAR
