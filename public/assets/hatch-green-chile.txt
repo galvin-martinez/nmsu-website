@@ -9,19 +9,19 @@ WHEN
   who has ever said "a half bushel is plenty" was wrong.
 
 HEAT LEVELS
-  Mild      good for people who are still learning
-  Medium    the honest default
-  Hot       what you actually want
-  X-Hot     what you claim you want in front of company
+  - Mild      good for people who are still learning
+  - Medium    the honest default
+  - Hot       what you actually want
+  - X-Hot     what you claim you want in front of company
 
 WHAT YOU NEED
-  Fresh Hatch green chile
-  A hot fire: propane roaster, gas grill, or an oven broiler
-  Tongs
-  A large bowl and a lid, or paper grocery bags
-  Freezer bags
-  Gloves. Yes, gloves. Ask anyone who has skipped this step
-  and then rubbed an eye four hours later.
+  - Fresh Hatch green chile
+  - A hot fire: propane roaster, gas grill, or an oven broiler
+  - Tongs
+  - A large bowl and a lid, or paper grocery bags
+  - Freezer bags
+  - Gloves. Yes, gloves. Ask anyone who has skipped this step
+    and then rubbed an eye four hours later.
 
 ROASTING
   1. Get the heat high. Chile wants to blister fast, not cook
@@ -40,20 +40,25 @@ STEAMING (do not skip)
      skin off the flesh. This is the step that decides whether
      peeling is pleasant or miserable.
 
+PEELING
+  7. Peel them while they are still warm. After the steam the
+     skins come away with your fingers, no knife needed. Pull
+     the stems at the same time, and take the seeds out now if
+     you want them milder. Leave them in if you do not.
+
 FREEZING
-  7. Here is the part most people get wrong: freeze them with
-     the skins ON. The skin protects the flesh from freezer
-     burn, and it slips off easily after thawing.
   8. Portion into freezer bags in amounts you would actually
      use at once. A year of chile in one giant brick helps
      nobody.
-  9. Press the air out. Label with the heat level and the year,
-     because by February you will not remember either.
+  9. Press the air out. Without the skins there is nothing else
+     standing between the flesh and freezer burn. Label with the
+     heat level and the year, because by February you will not
+     remember either.
  10. Good for about a year. It will not last a year.
 
 USING IT
-  Thaw, slip the skins off, pull the stems, and chop. Seeds
-  stay if you want the heat, go if you do not.
+  Thaw and chop. The peeling is already behind you, which is
+  the whole reason for doing it up front.
 
   Goes in: eggs, burgers, stew, mac and cheese, cornbread,
   anything with a tortilla near it, and at least one thing your
