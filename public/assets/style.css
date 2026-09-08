@@ -638,12 +638,37 @@ section h2 {
   background: var(--color-brand-strong-hover);
 }
 
+/* Faceted footer. Low-poly look built from layered linear-gradients with hard
+   colour stops rather than a data: URI image — the CSP's img-src 'self' would
+   block a data: background outright. Alphas are kept low so white text stays
+   above 7:1 even where two light facets overlap. */
 footer.site-footer {
-  background: var(--color-brand-strong);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-brand-strong);
   text-align: center;
   color: var(--color-white-sands);
   padding: 2rem 1.5rem;
   font-size: 0.9rem;
+}
+
+footer.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(114deg, rgba(255, 255, 255, 0.07) 0 34%, transparent 34%),
+    linear-gradient(201deg, rgba(0, 0, 0, 0.12) 0 44%, transparent 44%),
+    linear-gradient(324deg, rgba(255, 255, 255, 0.05) 0 29%, transparent 29%),
+    linear-gradient(61deg, rgba(0, 0, 0, 0.09) 0 22%, transparent 22%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.04) 0 52%, transparent 52%);
+}
+
+/* Keep the footer content above the facet layer. */
+footer.site-footer > * {
+  position: relative;
+  z-index: 1;
 }
 
 footer.site-footer a {
