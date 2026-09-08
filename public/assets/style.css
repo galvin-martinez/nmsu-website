@@ -481,14 +481,13 @@ main a:focus-visible {
   color: var(--color-brand-fg);
   text-decoration: none;
   font-weight: 600;
-  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
 
 .contact-list a:hover,
 .contact-list a:focus {
   background: var(--color-brand-strong);
   color: #fff;
-  transform: translateY(-1px);
 }
 
 .contact-list .icon {
@@ -498,10 +497,11 @@ main a:focus-visible {
   fill: currentColor;
 }
 
-/* Contact chips inside the crimson hero, matching the header's theme-toggle
-   pill: translucent white fill + brighter border. A border alone (no fill) read
-   as far too faint against the gradient — the fill is what makes the control
-   legible as a shape.
+/* Contact chips inside the crimson hero. They borrow the header toggle's
+   frosted treatment — translucent white fill + brighter border — but keep the
+   site's rectangular --radius rather than the toggle's pill shape. A border
+   alone (no fill) read as far too faint against the gradient; the fill is what
+   makes the control legible as a shape.
 
    Alphas are capped for contrast, checked against the gradient's LIGHTEST stop
    (#b3145a, the worst case): white text over the 0.12 fill is ~5.6:1 and over
@@ -514,7 +514,6 @@ main a:focus-visible {
 .hero-banner .contact-list a {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.5);
-  border-radius: 999px;
   color: var(--color-white-sands);
 }
 
