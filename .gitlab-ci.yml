@@ -14,7 +14,7 @@ html-validate:
   stage: check
   image: node:20-alpine
   script:
-    - npx --yes html-validate public/index.html public/experience.html public/projects.html
+    - npx --yes html-validate public/index.html public/experience.html public/projects.html public/404.html
 
 accessibility-check:
   stage: check
