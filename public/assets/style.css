@@ -330,7 +330,8 @@ button:focus-visible {
 /* The crimson default outline would disappear against the crimson header and
    footer; Sagebrush Mint reads clearly on both. */
 header.site-header a:focus-visible,
-footer.site-footer a:focus-visible {
+footer.site-footer a:focus-visible,
+.hero-banner a:focus-visible {
   outline-color: var(--color-mint);
 }
 
@@ -495,6 +496,26 @@ main a:focus-visible {
   height: 1.15rem;
   flex-shrink: 0;
   fill: currentColor;
+}
+
+/* The contact chips live inside the crimson hero, where their default crimson
+   border and text would be nearly invisible. White on the hero's lightest
+   gradient stop measures ~6.6:1; the hover fill inverts to crimson-on-white
+   at ~9.4:1. */
+.hero-banner .contact-list {
+  margin: 0;
+}
+
+.hero-banner .contact-list a {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--color-white-sands);
+}
+
+.hero-banner .contact-list a:hover,
+.hero-banner .contact-list a:focus {
+  background: var(--color-white-sands);
+  color: var(--color-brand-strong);
+  border-color: var(--color-white-sands);
 }
 
 section {
