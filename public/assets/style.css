@@ -638,11 +638,6 @@ section h2 {
   background: var(--color-brand-strong-hover);
 }
 
-.back-link {
-  display: inline-block;
-  margin-bottom: 1.5rem;
-}
-
 footer.site-footer {
   background: var(--color-brand-strong);
   text-align: center;
