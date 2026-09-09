@@ -1,0 +1,11 @@
+# https://nmsu.galvin.pro/
+# Everything here is meant to be found. Crawl away.
+
+User-agent: *
+Allow: /
+
+# The 404 page is served for missing URLs and carries noindex itself,
+# so there is nothing to gain from crawling it directly.
+Disallow: /404.html
+
+Sitemap: https://nmsu.galvin.pro/sitemap.xml

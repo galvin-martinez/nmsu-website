@@ -1,0 +1,39 @@
+/* TEAM */
+
+    Developer: Galvin Martinez
+    Site: https://nmsu.galvin.pro
+    Location: New Mexico, USA
+
+
+/* SITE */
+
+    Doctype: HTML5
+    Components: None. No framework, no bundler, no build step.
+                Hand written HTML and CSS.
+    Standards: WCAG 2 AA, Content Security Policy Level 3
+    Illustrations: Hand authored SVG. No stock art.
+    Typography: System font stack, so nothing is fetched from a
+                third party and nothing tracks you.
+
+
+/* HOW IT GETS HERE */
+
+    Source: GitLab (self hosted)
+    Build: Docker, nginx on Alpine
+    Deploy: Komodo, triggered by webhook on push to main
+    Host: A server in my house, not a cloud provider
+    Tunnel: newt to a Pangolin VPS, which terminates TLS
+    Inbound ports forwarded at home: zero
+
+
+/* THANKS */
+
+    New Mexico State University, for the Aggie Crimson.
+    Whoever decided green chile belongs on everything.
+    You, for reading a file most people never open.
+
+
+/* NOTE */
+
+    Built for CSCI 1115G. The grade was for the assignment.
+    The homelab was for me.
