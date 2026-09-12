@@ -54,7 +54,8 @@
   try {
     console.log('%c%s', 'color:#b3145a', PETE);
     console.log(
-      'Howdy. %cYou found Pistol Pete.%c  Go Aggies!',
+      '%cHowdy. %cYou found Pistol Pete.%c  Go Aggies!',
+      'color:#6d6e71;font-size:12px',
       'color:#b3145a;font-weight:700;font-size:13px',
       'color:#6d6e71;font-size:12px'
     );
