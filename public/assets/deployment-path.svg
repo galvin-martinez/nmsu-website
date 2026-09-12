@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 916" role="img"
+     aria-labelledby="dp-title dp-desc" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <title id="dp-title">How this site gets from a git push to your browser</title>
+  <desc id="dp-desc">A deployment diagram in three zones. At my desk, a git push. In my
+    house, a self hosted GitLab receives it, Komodo sees the webhook and rebuilds, Docker
+    runs nginx on Alpine, and a newt tunnel dials out. On a VPS, Pangolin terminates TLS
+    and serves the visitor. No inbound ports are forwarded at home.</desc>
+
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#8c0b42"/>
+    </marker>
+    <linearGradient id="hdr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b3145a"/>
+      <stop offset="100%" stop-color="#5c0a2e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="720" height="916" fill="#fdfaf9"/>
+  <rect width="720" height="96" fill="url(#hdr)"/>
+  <rect y="93" width="720" height="3" fill="#009db8"/>
+  <rect x="240" y="93" width="240" height="3" fill="#6cc3bc"/>
+  <rect x="480" y="93" width="240" height="3" fill="#f2824f"/>
+  <text x="360" y="44" text-anchor="middle" font-size="25" font-weight="700" fill="#ffffff">HOW THIS SITE REACHES YOU</text>
+  <text x="360" y="72" text-anchor="middle" font-size="14" fill="#f4dfe7">From a git push to your browser</text>
+
+  <!-- ZONE: at my desk -->
+  <rect x="48" y="128" width="624" height="112" rx="12" fill="#ffffff" stroke="#d7c9c4" stroke-dasharray="5 4"/>
+  <rect x="68" y="116" width="118" height="24" rx="12" fill="#8c0b42"/>
+  <text x="127" y="133" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">AT MY DESK</text>
+  <rect x="160" y="158" width="400" height="58" rx="9" fill="#fdf3f7" stroke="#8c0b42" stroke-width="1.5"/>
+  <text x="360" y="182" text-anchor="middle" font-size="16" font-weight="600" fill="#8c0b42">git push</text>
+  <text x="360" y="201" text-anchor="middle" font-size="12" fill="#6d6e71">One command. That is the whole deploy.</text>
+  <line x1="360" y1="240" x2="360" y2="272" stroke="#8c0b42" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- ZONE: in my house -->
+  <rect x="48" y="280" width="624" height="366" rx="12" fill="#ffffff" stroke="#d7c9c4" stroke-dasharray="5 4"/>
+  <rect x="68" y="268" width="132" height="24" rx="12" fill="#009db8"/>
+  <text x="134" y="285" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">IN MY HOUSE</text>
+
+  <rect x="160" y="306" width="400" height="56" rx="9" fill="#eff9fb" stroke="#009db8" stroke-width="1.5"/>
+  <text x="360" y="329" text-anchor="middle" font-size="15" font-weight="600" fill="#0b5f6d">GitLab, self hosted</text>
+  <text x="360" y="348" text-anchor="middle" font-size="12" fill="#6d6e71">Takes the commit</text>
+  <line x1="360" y1="362" x2="360" y2="390" stroke="#8c0b42" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="372" y="381" font-size="11" fill="#6d6e71">fires a webhook</text>
+
+  <rect x="160" y="398" width="400" height="56" rx="9" fill="#eff9fb" stroke="#009db8" stroke-width="1.5"/>
+  <text x="360" y="421" text-anchor="middle" font-size="15" font-weight="600" fill="#0b5f6d">Komodo</text>
+  <text x="360" y="440" text-anchor="middle" font-size="12" fill="#6d6e71">Pulls the change, rebuilds</text>
+  <line x1="360" y1="454" x2="360" y2="482" stroke="#8c0b42" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="372" y="473" font-size="11" fill="#6d6e71">builds an image</text>
+
+  <rect x="160" y="490" width="400" height="56" rx="9" fill="#eff9fb" stroke="#009db8" stroke-width="1.5"/>
+  <text x="360" y="513" text-anchor="middle" font-size="15" font-weight="600" fill="#0b5f6d">Docker, nginx on Alpine</text>
+  <text x="360" y="532" text-anchor="middle" font-size="12" fill="#6d6e71">Serves plain static files</text>
+  <line x1="360" y1="546" x2="360" y2="574" stroke="#8c0b42" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="160" y="582" width="400" height="52" rx="9" fill="#f4fbfa" stroke="#6cc3bc" stroke-width="1.5"/>
+  <text x="360" y="604" text-anchor="middle" font-size="15" font-weight="600" fill="#1d6f68">newt tunnel</text>
+  <text x="360" y="622" text-anchor="middle" font-size="12" fill="#6d6e71">Dials out. Nothing dials in.</text>
+
+  <line x1="360" y1="646" x2="360" y2="686" stroke="#8c0b42" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="372" y="672" font-size="11" font-weight="600" fill="#8c0b42">outbound only</text>
+
+  <!-- ZONE: the vps -->
+  <rect x="48" y="694" width="624" height="106" rx="12" fill="#ffffff" stroke="#d7c9c4" stroke-dasharray="5 4"/>
+  <rect x="68" y="682" width="108" height="24" rx="12" fill="#f2824f"/>
+  <text x="122" y="699" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">ON A VPS</text>
+  <rect x="160" y="720" width="400" height="58" rx="9" fill="#fef5ef" stroke="#f2824f" stroke-width="1.5"/>
+  <text x="360" y="744" text-anchor="middle" font-size="15" font-weight="600" fill="#9a4a1b">Pangolin</text>
+  <text x="360" y="763" text-anchor="middle" font-size="12" fill="#6d6e71">Public address, TLS terminates here</text>
+
+  <line x1="360" y1="800" x2="360" y2="830" stroke="#8c0b42" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="372" y="820" font-size="11" fill="#6d6e71">https</text>
+
+  <rect x="160" y="838" width="400" height="46" rx="23" fill="#8c0b42"/>
+  <text x="360" y="867" text-anchor="middle" font-size="15" font-weight="600" fill="#ffffff">Your browser</text>
+
+  <text x="360" y="903" text-anchor="middle" font-size="12" fill="#6d6e71">Inbound ports forwarded at my house: zero</text>
+</svg>
