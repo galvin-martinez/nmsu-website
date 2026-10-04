@@ -103,9 +103,9 @@ Set in `nginx.conf`, verified live through Pangolin:
 
 - `Content-Security-Policy` — `default-src 'self'`, `object-src 'none'`,
   no third-party origins; the one inline script allowed by hash
-- `Strict-Transport-Security: max-age=86400` — raise to `31536000` once
-  settled. No `includeSubDomains` (would break HTTP-only `*.galvin.pro`
-  hosts) and no `preload`
+- `Strict-Transport-Security: max-age=31536000` (one year), no `preload`.
+  Through Pangolin, Traefik's own one-year header (with
+  `includeSubDomains`, for every `*.galvin.pro` site) replaces this one
 - `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`,
   `Permissions-Policy`, `Cross-Origin-Opener-Policy`
 - `server_tokens off`, dotfiles denied, no directory listing, unsafe HTTP
