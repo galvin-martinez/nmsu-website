@@ -22,8 +22,7 @@ public/
 Dockerfile            Static nginx image (base tag pinned)
 nginx.conf            Server config baked into the image
 compose.yaml          Stack definition Komodo builds & runs
-.dockerignore         Keeps dotfiles/CI/docs out of the image
-.gitlab-ci.yml        HTML validation + pa11y accessibility check on push
+.dockerignore         Keeps dotfiles/docs out of the image
 .pa11yci.json         pa11y config (URL list + WCAG2AA standard)
 ```
 
@@ -114,15 +113,18 @@ Set in `nginx.conf`, verified live through Pangolin:
 The origin needs **no inbound port forward** — newt dials outbound, so
 `nucleus:8095` is not reachable from the internet. Keep it that way.
 
-## Accessibility & CI
+## Accessibility checks
 
-Every push runs `.gitlab-ci.yml`: `html-validate` over all four pages
-(a hard gate) and `pa11y-ci` at WCAG2AA (informational, `allow_failure:
-true`). Run the validator locally the same way CI does:
+There is no CI. The homelab's GitLab has no runner, so the old
+`.gitlab-ci.yml` only produced jobs that sat pending for an hour and then
+failed. Run the checks locally before pushing (needs only Node.js):
 
 ```bash
-docker run --rm -v "$PWD:/w" -w /w node:20-alpine \
-  npx --yes html-validate public/*.html
+npx --yes html-validate public/*.html        # all four pages, must pass
+
+npx --yes http-server public -p 8080 -s &    # pa11y needs the site served
+npx --yes pa11y-ci --config .pa11yci.json    # WCAG2AA, URLs in .pa11yci.json
+kill %1
 ```
 
 The site ships a real heading hierarchy, `aria-current="page"` on the active

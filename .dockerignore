@@ -2,7 +2,6 @@
 # the site itself. public/.DS_Store was previously copied into the webroot;
 # nginx blocked it, but it should never have shipped in the first place.
 .git
-.gitlab-ci.yml
 .claude
 .pa11yci.json
 .dockerignore
