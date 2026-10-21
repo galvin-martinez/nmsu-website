@@ -3,7 +3,6 @@
 # nginx blocked it, but it should never have shipped in the first place.
 .git
 .claude
-.pa11yci.json
 .dockerignore
 Dockerfile
 compose.yaml

@@ -23,7 +23,6 @@ Dockerfile            Static nginx image (base tag pinned)
 nginx.conf            Server config baked into the image
 compose.yaml          Stack definition Komodo builds & runs
 .dockerignore         Keeps dotfiles/docs out of the image
-.pa11yci.json         pa11y config (URL list + WCAG2AA standard)
 ```
 
 The `public/` name is a leftover from GitLab's "Pages/Plain HTML" template.
@@ -117,13 +116,14 @@ The origin needs **no inbound port forward** — newt dials outbound, so
 
 There is no CI. The homelab's GitLab has no runner, so the old
 `.gitlab-ci.yml` only produced jobs that sat pending for an hour and then
-failed. Run the checks locally before pushing (needs only Node.js):
+failed. Run the checks locally before pushing (needs only Node.js).
+pa11y tests against WCAG2AA, its default; add any new page to its URL list:
 
 ```bash
 npx --yes html-validate public/*.html        # all four pages, must pass
 
 npx --yes http-server public -p 8080 -s &    # pa11y needs the site served
-npx --yes pa11y-ci --config .pa11yci.json    # WCAG2AA, URLs in .pa11yci.json
+npx --yes pa11y-ci http://127.0.0.1:8080/{index,experience,projects,404}.html
 kill %1
 ```
 
